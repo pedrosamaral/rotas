@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Rotas</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Login -->
+  <div id="login-screen" class="screen">
+    <div class="login-card">
+      <div class="login-header">
+        <div class="logo">🚚</div>
+        <h1>Sistema de Rotas</h1>
+        <p>Acesso exclusivo do gestor</p>
+      </div>
+      <form id="login-form">
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" placeholder="Digite sua senha" required autofocus>
+        <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+      </form>
+      <p class="login-hint">Senha padrão: <code>gestor123</code></p>
+    </div>
+  </div>
+
+  <!-- App -->
+  <div id="app-screen" class="screen hidden">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <span class="logo-sm">🚚</span>
+        <span>Rotas</span>
+      </div>
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-page="agenda">📅 Agenda</button>
+        <button class="nav-item" data-page="rotas">🛣️ Rotas</button>
+        <button class="nav-item" data-page="carros">🚗 Carros</button>
+        <button class="nav-item" data-page="motoristas">👤 Motoristas</button>
+        <button class="nav-item" data-page="ajudantes">👥 Ajudantes</button>
+      </nav>
+      <button id="btn-logout" class="btn btn-ghost sidebar-logout">Sair</button>
+    </aside>
+
+    <main class="main-content">
+      <!-- Agenda -->
+      <section id="page-agenda" class="page active">
+        <header class="page-header">
+          <div>
+            <h2>Agenda</h2>
+            <p class="subtitle">Visualize e gerencie rotas por dia</p>
+          </div>
+          <div style="display:flex;gap:.5rem;align-items:center">
+            <button class="btn btn-ghost" id="btn-compartilhar-dia">📤 Compartilhar Dia</button>
+            <button class="btn btn-primary" id="btn-nova-rota-agenda">+ Nova Rota</button>
+          </div>
+        </header>
+        <div class="agenda-controls">
+          <button class="btn btn-ghost" id="btn-mes-anterior">‹</button>
+          <h3 id="mes-atual"></h3>
+          <button class="btn btn-ghost" id="btn-mes-proximo">›</button>
+          <button class="btn btn-ghost" id="btn-hoje">Hoje</button>
+        </div>
+        <div class="calendar" id="calendario"></div>
+        <div class="agenda-dia" id="agenda-dia">
+          <h3 id="dia-selecionado-titulo">Selecione um dia</h3>
+          <div id="rotas-do-dia"></div>
+        </div>
+      </section>
+
+      <!-- Rotas -->
+      <section id="page-rotas" class="page">
+        <header class="page-header">
+          <div>
+            <h2>Rotas</h2>
+            <p class="subtitle">Todas as rotas cadastradas</p>
+          </div>
+          <button class="btn btn-primary" id="btn-nova-rota">+ Nova Rota</button>
+        </header>
+        <div class="filters">
+          <input type="date" id="filtro-data" class="input">
+          <select id="filtro-status" class="input">
+            <option value="">Todos os status</option>
+            <option value="Pendente">Pendente</option>
+            <option value="Em andamento">Em andamento</option>
+            <option value="Concluido">Concluído</option>
+            <option value="Finalizado">Finalizado</option>
+            <option value="Cancelado">Cancelado</option>
+          </select>
+          <select id="filtro-tipo" class="input">
+            <option value="">Todos os tipos</option>
+            <option value="Entrega">Entrega</option>
+            <option value="Coleta">Coleta</option>
+          </select>
+          <button class="btn btn-ghost" id="btn-limpar-filtros">Limpar</button>
+        </div>
+        <div id="lista-rotas" class="cards-grid"></div>
+      </section>
+
+      <!-- Carros -->
+      <section id="page-carros" class="page">
+        <header class="page-header">
+          <div>
+            <h2>Carros</h2>
+            <p class="subtitle">Frota e motoristas vinculados</p>
+          </div>
+          <button class="btn btn-primary" id="btn-novo-carro">+ Novo Carro</button>
+        </header>
+        <div id="lista-carros" class="cards-grid"></div>
+      </section>
+
+      <!-- Motoristas -->
+      <section id="page-motoristas" class="page">
+        <header class="page-header">
+          <div>
+            <h2>Motoristas</h2>
+            <p class="subtitle">Cadastro de motoristas</p>
+          </div>
+          <button class="btn btn-primary" id="btn-novo-motorista">+ Novo Motorista</button>
+        </header>
+        <div id="lista-motoristas" class="cards-grid"></div>
+      </section>
+
+      <!-- Ajudantes -->
+      <section id="page-ajudantes" class="page">
+        <header class="page-header">
+          <div>
+            <h2>Ajudantes</h2>
+            <p class="subtitle">Cadastro de ajudantes</p>
+          </div>
+          <button class="btn btn-primary" id="btn-novo-ajudante">+ Novo Ajudante</button>
+        </header>
+        <div id="lista-ajudantes" class="cards-grid"></div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" class="modal hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modal-titulo"></h3>
+        <button class="btn-close" id="modal-fechar">×</button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+      <div class="modal-footer" id="modal-footer"></div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
