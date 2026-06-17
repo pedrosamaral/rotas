@@ -141,7 +141,7 @@ function gerarTextoRota(rota, mostraData = true) {
   }
  
    if (motorista) {
-    texto += `\n👤 *Motorista: ${motorista.nome}*`;
+    texto += `👤 *Motorista: ${motorista.nome}*`;
   }
   if (rota.horario) texto += ` às ${rota.horario}`;
   texto += `\nTipo: ${getTipoRota(rota)}`;
