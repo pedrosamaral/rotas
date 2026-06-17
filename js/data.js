@@ -130,14 +130,18 @@ function getRotasPorData(dataStr) {
     .sort((a, b) => (a.horario || '').localeCompare(b.horario || ''));
 }
 
-function gerarTextoRota(rota) {
+function gerarTextoRota(rota, mostraData = true) {
   const carro = getCarro(rota.carroId);
   const motorista = getMotorista(rota.motoristaId);
   const ajudante = getAjudante(rota.ajudanteId);
 
-  let texto = `📋 ROTA - ${formatDate(rota.data)}`;
+  let texto = '';
+   if (mostraData) {
+    texto += `📋 ROTA - ${formatDate(rota.data)}`;
+  }
+ 
    if (motorista) {
-    texto += `\n\n👤 *Motorista: ${motorista.nome}*`;
+    texto += `\n👤 *Motorista: ${motorista.nome}*`;
   }
   if (rota.horario) texto += ` às ${rota.horario}`;
   texto += `\nTipo: ${getTipoRota(rota)}`;
@@ -164,14 +168,20 @@ function gerarTextoRota(rota) {
 
 function gerarTextoDia(dataStr) {
   const rotas = getRotasPorData(dataStr);
-  if (rotas.length === 0) return 'Nenhuma rota neste dia.';
+
+  if (rotas.length === 0){
+    return 'Nenhuma rota neste dia.';
+  } 
 
   let texto = `📅 AGENDA - ${formatDateLong(dataStr)}\n`;
   texto += `${'='.repeat(40)}\n`;
 
   rotas.forEach((rota, i) => {
-    if (i > 0) texto += `\n${'-'.repeat(40)}\n\n`;
-    texto += gerarTextoRota(rota);
+    if (i > 0) {
+      texto += `\n${'-'.repeat(40)}\n\n`;
+    }
+
+    texto += gerarTextoRota(rota, false);
   });
 
   return texto;
